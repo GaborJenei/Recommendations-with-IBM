@@ -14259,16 +14259,14 @@ a.anchor-link {
 
 <div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<h1 id="Recommendations-with-IBM">Recommendations with IBM<a class="anchor-link" href="#Recommendations-with-IBM">&#182;</a></h1><p>In this notebook, you will be putting your recommendation skills to use on real data from the IBM Watson Studio platform.</p>
-<p>You may either submit your notebook through the workspace here, or you may work from your local machine and submit through the next page.  Either way assure that your code passes the project <a href="https://review.udacity.com/#!/rubrics/2322/view">RUBRIC</a>.  <strong>Please save regularly.</strong></p>
-<p>By following the table of contents, you will build out a number of different methods for making recommendations that can be used for different situations.</p>
+<h1 id="Recommendations-with-IBM">Recommendations with IBM<a class="anchor-link" href="#Recommendations-with-IBM">&#182;</a></h1><p>In this notebook, we will be putting our recommendation skills to use on real data from the IBM Watson Studio platform.</p>
+<p>By following the table of contents, we will build out a number of different methods for making recommendations that can be used for different situations.</p>
 <h2 id="Table-of-Contents">Table of Contents<a class="anchor-link" href="#Table-of-Contents">&#182;</a></h2><p>I. <a href="#Exploratory-Data-Analysis">Exploratory Data Analysis</a><br>
 II. <a href="#Rank">Rank Based Recommendations</a><br>
 III. <a href="#User-User">User-User Based Collaborative Filtering</a><br>
 IV. <a href="#Content-Recs">Content Based Recommendations (EXTRA - NOT REQUIRED)</a><br>
-V. <a href="#Matrix-Fact">Matrix Factorization</a><br>
-VI. <a href="#conclusions">Extras &amp; Concluding</a></p>
-<p>At the end of the notebook, you will find directions for how to submit your work.  Let's get started by importing the necessary libraries and reading in the data.</p>
+V. <a href="#Matrix-Fact">Matrix Factorization</a><br></p>
+<p>Let's get started by importing the necessary libraries and reading in the data.</p>
 
 </div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
@@ -15122,7 +15120,7 @@ Your top_20 looks like the solution list! Nice job.
 <span class="sd">    an article and a 0 otherwise</span>
 <span class="sd">    &#39;&#39;&#39;</span>
     <span class="c1"># Get the users (unique list) and items (as an unique list)</span>
-    <span class="n">users</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">()</span>
+    <span class="n">users</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span>
     <span class="n">items</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;article_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
     
     <span class="c1"># Create a dataframe with all 0 values and rows as users, columns as items</span>
@@ -15134,7 +15132,7 @@ Your top_20 looks like the solution list! Nice job.
         <span class="n">user_items</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span><span class="o">==</span><span class="n">user</span><span class="p">,</span> <span class="s1">&#39;article_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">unique</span><span class="p">(),</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">int</span><span class="p">)</span>
         <span class="n">user_item_mat</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">user</span><span class="p">,</span> <span class="n">user_items</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
     
-    <span class="k">return</span> <span class="n">user_item_mat</span> <span class="c1"># return the user_item matrix </span>
+    <span class="k">return</span> <span class="n">user_item_mat</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="c1"># return the user_item matrix </span>
 
 <span class="n">user_item</span> <span class="o">=</span> <span class="n">create_user_item_matrix</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
 </pre></div>
@@ -15418,16 +15416,16 @@ The 3 most similar users to user 46 are: [4201, 23, 3782]
 
 
 <div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>[&#39;the nurse assignment problem&#39;,
- &#39;aspiring data scientists! start to learn statistics with these 6 books!&#39;,
- &#39;airbnb data for analytics: mallorca reviews&#39;,
- &#39;experience iot with coursera&#39;,
- &#39;apache spark lab, part 2: querying data&#39;,
- &#39;deep forest: towards an alternative to deep neural networks&#39;,
- &#39;using github for project control in dsx&#39;,
- &#39;502    forgetting the past to learn the future: long ...\nName: title, dtype: object&#39;,
- &#39;5 practical use cases of social network analytics: going beyond facebook and twitter&#39;,
- &#39;optimizing a marketing campaign: moving from predictions to actions&#39;]</pre>
+<pre>[&#39;gosales transactions for logistic regression model&#39;,
+ &#39;use decision optimization to schedule league games&#39;,
+ &#39;discover hidden facebook usage insights&#39;,
+ &#39;movie recommender system with spark machine learning&#39;,
+ &#39;this week in data science (february 14, 2017)&#39;,
+ &#39;got zip code data? prep it for analytics. – ibm watson data lab – medium&#39;,
+ &#39;spark 2.1 and job monitoring available in dsx&#39;,
+ &#39;higher-order logistic regression for large datasets&#39;,
+ &#39;brunel in jupyter&#39;,
+ &#39;deep forest: towards an alternative to deep neural networks&#39;]</pre>
 </div>
 
 </div>
@@ -15521,13 +15519,16 @@ The 3 most similar users to user 46 are: [4201, 23, 3782]
     <span class="k">for</span> <span class="n">user</span> <span class="ow">in</span> <span class="n">user_item</span><span class="o">.</span><span class="n">index</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">user</span> <span class="o">!=</span> <span class="n">user_id</span><span class="p">:</span>
             <span class="n">similarity_value</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">user_row</span><span class="p">,</span> <span class="n">user_item</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">user</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">)))</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
-            <span class="n">no_of_interactions</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">user_item</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">user</span><span class="p">])</span>
-            <span class="n">user_similarity</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">user</span><span class="p">,</span> <span class="n">similarity_value</span><span class="p">,</span> <span class="n">no_of_interactions</span><span class="p">])</span>
+            <span class="n">user_similarity</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">user</span><span class="p">,</span> <span class="n">similarity_value</span><span class="p">])</span>
     
-    <span class="n">df_similar</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">user_similarity</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;neighbor_id&#39;</span><span class="p">,</span> <span class="s1">&#39;similarity&#39;</span><span class="p">,</span> <span class="s1">&#39;num_interactions&#39;</span><span class="p">])</span>
+    <span class="n">df_similar</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">user_similarity</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;neighbor_id&#39;</span><span class="p">,</span> <span class="s1">&#39;similarity&#39;</span><span class="p">])</span>
+   
+    <span class="c1"># Get the number of interactions</span>
+    <span class="n">no_interactions</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;user_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="s1">&#39;no_interactions&#39;</span><span class="p">)</span>
+    <span class="n">df_similar</span> <span class="o">=</span> <span class="n">df_similar</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">no_interactions</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;neighbor_id&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
     
     <span class="c1"># sort by similarity</span>
-    <span class="n">neighbors_df</span> <span class="o">=</span> <span class="n">df_similar</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;similarity&#39;</span><span class="p">,</span> <span class="s1">&#39;num_interactions&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">neighbors_df</span> <span class="o">=</span> <span class="n">df_similar</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;similarity&#39;</span><span class="p">,</span> <span class="s1">&#39;no_interactions&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     
     <span class="k">return</span> <span class="n">neighbors_df</span> <span class="c1"># Return the dataframe specified in the doc_string</span>
 
@@ -15562,25 +15563,35 @@ The 3 most similar users to user 46 are: [4201, 23, 3782]
     
     <span class="n">recs</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">rec_names</span> <span class="o">=</span> <span class="p">[]</span>
+    
     <span class="n">cnt</span><span class="o">=</span><span class="mi">0</span>
     <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">recs</span><span class="p">)</span><span class="o">&lt;</span><span class="n">m</span><span class="p">:</span>
-            <span class="c1"># get similar users items</span>
-            <span class="n">similar_user_article_ids</span> <span class="o">=</span> <span class="n">get_user_articles</span><span class="p">(</span><span class="n">similar_users</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">cnt</span><span class="p">,</span> <span class="mi">0</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="c1"># Get similar user</span>
+        <span class="n">neighbour</span> <span class="o">=</span> <span class="n">similar_users</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="n">cnt</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 
-            <span class="c1"># get the ones this user hasn&#39;t seen</span>
-            <span class="n">unseen_article_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">similar_user_article_ids</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">this_user_article_ids</span><span class="p">))</span>
+        <span class="c1"># get similar users items</span>
+        <span class="n">similar_user_article_ids</span> <span class="o">=</span> <span class="n">get_user_articles</span><span class="p">(</span><span class="n">neighbour</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        
 
-            <span class="c1"># append to recommendations</span>
-            <span class="n">recs</span> <span class="o">=</span> <span class="n">recs</span> <span class="o">+</span> <span class="n">unseen_article_ids</span>
+        <span class="c1"># get the ones this user hasn&#39;t seen</span>
+        <span class="n">unseen_article_ids</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">similar_user_article_ids</span><span class="p">)</span> <span class="o">-</span> <span class="nb">set</span><span class="p">(</span><span class="n">this_user_article_ids</span><span class="p">))</span>
 
-            <span class="c1"># remove duplicates?</span>
+        <span class="c1"># where the number of recommended articles starts below m and ends exceeding m,</span>
+        <span class="c1"># choose articles with the articles with the most total interactions before choosing those</span>
+        <span class="c1"># with fewer total interactions</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">recs</span><span class="p">)</span><span class="o">+</span><span class="nb">len</span><span class="p">(</span><span class="n">unseen_article_ids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">m</span><span class="p">:</span>
+            <span class="n">unseen_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;article_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">unseen_article_ids</span><span class="p">))]</span>
+            <span class="n">unseen_article_ids</span> <span class="o">=</span> <span class="n">get_top_article_ids</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="p">(</span><span class="n">m</span> <span class="o">-</span> <span class="nb">len</span><span class="p">(</span><span class="n">recs</span><span class="p">)),</span> <span class="n">df</span> <span class="o">=</span> <span class="n">unseen_df</span><span class="p">)</span>
+    
+        <span class="c1"># append to recommendations</span>
+        <span class="n">recs</span> <span class="o">=</span> <span class="n">recs</span> <span class="o">+</span> <span class="n">unseen_article_ids</span>
 
-            <span class="c1"># Move to next similar user</span>
-            <span class="n">cnt</span> <span class="o">+=</span><span class="mi">1</span>
+        <span class="c1"># remove duplicates?</span>
 
-    <span class="n">recs_df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;article_id&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">to_numeric</span><span class="p">(</span><span class="n">recs</span><span class="p">))]</span>
+        <span class="c1"># Move to next similar user</span>
+        <span class="n">cnt</span> <span class="o">+=</span><span class="mi">1</span>
 
-    <span class="n">recs</span> <span class="o">=</span> <span class="n">get_top_article_ids</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">recs_df</span><span class="p">),</span> <span class="n">df</span> <span class="o">=</span> <span class="n">recs_df</span><span class="p">)[:</span><span class="n">m</span><span class="p">]</span>
+    <span class="c1"># get the article names</span>
     <span class="n">rec_names</span> <span class="o">=</span> <span class="n">get_article_names</span><span class="p">(</span><span class="n">recs</span><span class="p">)</span>
 
     
@@ -15625,10 +15636,10 @@ The 3 most similar users to user 46 are: [4201, 23, 3782]
 
 <div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
 <pre>The top 10 recommendations for user 20 are the following article ids:
-[&#39;1429.0&#39;, &#39;1330.0&#39;, &#39;1314.0&#39;, &#39;1293.0&#39;, &#39;1162.0&#39;, &#39;1271.0&#39;, &#39;43.0&#39;, &#39;1351.0&#39;, &#39;1368.0&#39;, &#39;1305.0&#39;]
+[&#39;1330.0&#39;, &#39;1427.0&#39;, &#39;1364.0&#39;, &#39;1170.0&#39;, &#39;1162.0&#39;, &#39;1304.0&#39;, &#39;1351.0&#39;, &#39;1160.0&#39;, &#39;1354.0&#39;, &#39;1368.0&#39;]
 
 The top 10 recommendations for user 20 are the following article names:
-[&#39;use deep learning for image classification&#39;, &#39;insights from new york car accident reports&#39;, &#39;healthcare python streaming application demo&#39;, &#39;finding optimal locations of new store using decision optimization&#39;, &#39;analyze energy consumption in buildings&#39;, &#39;customer demographics and sales&#39;, &#39;deep learning with tensorflow course by big data university&#39;, &#39;model bike sharing data with spss&#39;, &#39;putting a human face on machine learning&#39;, &#39;gosales transactions for naive bayes model&#39;]
+[&#39;insights from new york car accident reports&#39;, &#39;use xgboost, scikit-learn &amp; ibm watson machine learning apis&#39;, &#39;predicting churn with the spss random tree algorithm&#39;, &#39;apache spark lab, part 1: basic concepts&#39;, &#39;analyze energy consumption in buildings&#39;, &#39;gosales transactions for logistic regression model&#39;, &#39;model bike sharing data with spss&#39;, &#39;analyze accident reports on amazon emr spark&#39;, &#39;movie recommender system with spark machine learning&#39;, &#39;putting a human face on machine learning&#39;]
 </pre>
 </div>
 </div>
@@ -15652,7 +15663,7 @@ The top 10 recommendations for user 20 are the following article names:
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1">### Tests with a dictionary of results</span>
 
 <span class="n">user1_most_sim</span> <span class="o">=</span> <span class="n">get_top_sorted_users</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Find the user that is most similar to user 1 </span>
-<span class="n">user131_10th_sim</span> <span class="o">=</span><span class="n">get_top_sorted_users</span><span class="p">(</span><span class="mi">131</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">10</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Find the 11th most similar user to user 131</span>
+<span class="n">user131_10th_sim</span> <span class="o">=</span><span class="n">get_top_sorted_users</span><span class="p">(</span><span class="mi">131</span><span class="p">)</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">9</span><span class="p">,</span><span class="mi">0</span><span class="p">]</span> <span class="c1"># Find the 10th most similar user to user 131</span>
 </pre></div>
 
      </div>
@@ -16285,20 +16296,20 @@ The user-tem matrix in our case has no missing values, there's a value of either
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>1430</th>
       <th>1314</th>
+      <th>1430</th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>1</th>
-      <td>1</td>
       <td>0</td>
+      <td>1</td>
     </tr>
     <tr>
       <th>2</th>
-      <td>0</td>
       <td>1</td>
+      <td>0</td>
     </tr>
   </tbody>
 </table>
@@ -16345,6 +16356,20 @@ The user-tem matrix in our case has no missing values, there's a value of either
     <span class="k">return</span> <span class="n">user_item_train</span><span class="p">,</span> <span class="n">user_item_test</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">,</span> <span class="n">test_arts</span>
 
 <span class="n">user_item_train</span><span class="p">,</span> <span class="n">user_item_test</span><span class="p">,</span> <span class="n">test_idx</span><span class="p">,</span> <span class="n">test_arts</span> <span class="o">=</span> <span class="n">create_test_and_train_user_item</span><span class="p">(</span><span class="n">df_train</span><span class="p">,</span> <span class="n">df_test</span><span class="p">)</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span> 
 </pre></div>
 
      </div>
@@ -16456,25 +16481,14 @@ The user-tem matrix in our case has no missing values, there's a value of either
 <p>Use the cells below to explore how well SVD works towards making predictions for recommendations on the test data.</p>
 
 </div>
-</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[39]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># fit SVD on the user_item_train matrix</span>
-
-<span class="c1"># filter to users &amp; items appearing in both test and train dataset</span>
-
-<span class="n">user_item_train</span> <span class="o">=</span> <span class="n">user_item_train</span><span class="p">[</span><span class="n">user_item_train</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">user_item_test</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
-<span class="n">user_item_train</span> <span class="o">=</span> <span class="n">user_item_train</span><span class="p">[</span><span class="n">user_item_train</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">user_item_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">user_item_test</span><span class="o">.</span><span class="n">columns</span><span class="p">)]]</span>
-
-<span class="n">user_item_test</span> <span class="o">=</span> <span class="n">user_item_test</span><span class="p">[</span><span class="n">user_item_test</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">user_item_train</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
-<span class="n">user_item_test</span> <span class="o">=</span> <span class="n">user_item_test</span><span class="p">[</span><span class="n">user_item_test</span><span class="o">.</span><span class="n">columns</span><span class="p">[</span><span class="n">user_item_test</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">user_item_train</span><span class="o">.</span><span class="n">columns</span><span class="p">)]]</span>
-
 <span class="n">u_train</span><span class="p">,</span> <span class="n">s_train</span><span class="p">,</span> <span class="n">vt_train</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">user_item_train</span><span class="p">)</span><span class="c1"># fit svd similar to above then use the cells below</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">s_train</span><span class="p">))</span>
 </pre></div>
 
      </div>
@@ -16482,25 +16496,18 @@ The user-tem matrix in our case has no missing values, there's a value of either
 </div>
 </div>
 
-<div class="jp-Cell-outputWrapper">
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
 
-
-<div class="jp-OutputArea jp-Cell-outputArea">
-
-<div class="jp-OutputArea-child">
-
-    
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>20
-</pre>
+     </div>
 </div>
 </div>
-
-</div>
-
 </div>
 
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
@@ -16509,17 +16516,11 @@ The user-tem matrix in our case has no missing values, there's a value of either
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[40]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Use these cells to see how well you can use the training </span>
-<span class="c1"># decomposition to predict on test data</span>
-<span class="n">k</span> <span class="o">=</span> <span class="mi">20</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">train_common_user</span> <span class="o">=</span> <span class="n">user_item_train</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">user_item_test</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
+<span class="n">test_common_user</span> <span class="o">=</span> <span class="n">user_item_test</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">user_item_train</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
 
-<span class="n">u_train_new</span> <span class="o">=</span> <span class="n">u_train</span><span class="p">[:,</span> <span class="p">:</span><span class="n">k</span><span class="p">]</span>
-<span class="n">s_train_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s_train</span><span class="p">[:</span><span class="n">k</span><span class="p">])</span>
-<span class="n">vt_train_new</span> <span class="o">=</span> <span class="n">vt_train</span><span class="p">[:</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span>
-
-<span class="c1"># dot product</span>
-<span class="n">user_item_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u_train_new</span><span class="p">,</span> <span class="n">s_train_new</span><span class="p">),</span> <span class="n">vt_train_new</span><span class="p">)</span>
-<span class="n">user_item_pred</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">user_item_pred</span> <span class="o">&gt;=</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+<span class="n">train_common_items</span> <span class="o">=</span> <span class="n">user_item_train</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">user_item_test</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
+<span class="n">test_common_items</span> <span class="o">=</span> <span class="n">user_item_test</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">user_item_train</span><span class="o">.</span><span class="n">columns</span><span class="p">)</span>
 </pre></div>
 
      </div>
@@ -16533,15 +16534,7 @@ The user-tem matrix in our case has no missing values, there's a value of either
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[41]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># Diff for each prediction</span>
-<span class="n">diffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">user_item_test</span><span class="p">,</span> <span class="n">user_item_pred</span><span class="p">)</span> 
-<span class="nb">print</span><span class="p">(</span><span class="n">user_item_test</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">user_item_pred</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="c1"># total error</span>
-<span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diffs</span><span class="p">)))</span>
-
-<span class="nb">print</span><span class="p">(</span><span class="s1">&#39;The total error is </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">err</span><span class="p">))</span>
-<span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">err</span><span class="p">)</span><span class="o">/</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">user_item_train</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">train_common_user</span><span class="p">,</span> <span class="n">train_common_items</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -16557,27 +16550,537 @@ The user-tem matrix in our case has no missing values, there's a value of either
 <div class="jp-OutputArea-child">
 
     
-    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
-
-
-<div class="jp-RenderedText jp-OutputArea-output" data-mime-type="text/plain">
-<pre>(20, 574)
-(20, 574)
-The total error is 456
-</pre>
-</div>
-</div>
-
-<div class="jp-OutputArea-child">
-
-    
     <div class="jp-OutputPrompt jp-OutputArea-prompt">Out[41]:</div>
 
 
 
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>0.9900854477855325</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>2</th>
+      <th>4</th>
+      <th>8</th>
+      <th>9</th>
+      <th>12</th>
+      <th>14</th>
+      <th>15</th>
+      <th>16</th>
+      <th>18</th>
+      <th>...</th>
+      <th>1432</th>
+      <th>1433</th>
+      <th>1434</th>
+      <th>1435</th>
+      <th>1436</th>
+      <th>1437</th>
+      <th>1439</th>
+      <th>1440</th>
+      <th>1441</th>
+      <th>1443</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2917</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3024</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3093</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3193</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3527</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3532</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3684</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3740</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3777</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3801</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3968</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3989</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3990</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3998</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4002</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4204</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4231</th>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4274</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4293</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4487</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>20 rows × 574 columns</p>
+</div>
 </div>
 
 </div>
@@ -16586,48 +17089,13 @@ The total error is 456
 
 </div>
 
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><code>6.</code> Use the cell below to comment on the results you found in the previous question. Given the circumstances of your results, discuss what you might do to determine if the recommendations you make with any of the above recommendation systems are an improvement to how users currently find articles?</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><strong>Response:</strong><br>
-In the previous question, after splitting the data to training and test set, it was necessary to filter both matrices down to the users and items located in both the training and test set. This left us with only 20 users and 574 articles. For this small sample size the accuracy is relatively high, however it is not tested on the majority of users available.</p>
-<p>All systems created above is improvements to the current way of finding articles.<br>
-Our systems could be further improved by:</p>
-<ul>
-<li>taking the number of interactions into account (user-item matrix cells will be the number of interactions)</li>
-<li>implementing a rating system with two options: like-dislike (and not rated)</li>
-</ul>
-<p>User based collaborative filtering is prone to a weakness where some users may try to improve their article recommendations by creating fake users and fake interactions or ratings artificially. This can be mitigated by incorporating the item-based collaborative filtering into the recommender system.</p>
-
-</div>
-</div>
-<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
-</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
-<p><a id='conclusions'></a></p>
-<h3 id="Extras">Extras<a class="anchor-link" href="#Extras">&#182;</a></h3><p>Using your workbook, you could now save your recommendations for each user, develop a class to make new predictions and update your results, and make a flask app to deploy your results.  These tasks are beyond what is required for this project.  However, from what you learned in the lessons, you certainly capable of taking these tasks on to improve upon your work here!</p>
-<h2 id="Conclusion">Conclusion<a class="anchor-link" href="#Conclusion">&#182;</a></h2><blockquote><p>Congratulations!  You have reached the end of the Recommendations with IBM project!</p>
-<p><strong>Tip</strong>: Once you are satisfied with your work here, check over your report to make sure that it is satisfies all the areas of the <a href="https://review.udacity.com/#!/rubrics/2322/view">rubric</a>. You should also probably remove all of the "Tips" like this one so that the presentation is as polished as possible.</p>
-</blockquote>
-<h2 id="Directions-to-Submit">Directions to Submit<a class="anchor-link" href="#Directions-to-Submit">&#182;</a></h2><blockquote><p>Before you submit your project, you need to create a .html or .pdf version of this notebook in the workspace here. To do that, run the code cell below. If it worked correctly, you should get a return code of 0, and you should see the generated .html file in the workspace directory (click on the orange Jupyter icon in the upper left).</p>
-<p>Alternatively, you can download this report as .html via the <strong>File</strong> &gt; <strong>Download as</strong> submenu, and then manually upload it into the workspace directory by clicking on the orange Jupyter icon in the upper left, then using the Upload button.</p>
-<p>Once you've done this, you can submit your project by clicking on the "Submit Project" button in the lower right here. This will create and submit a zip file with this .ipynb doc and the .html or .pdf version you created. Congratulations!</p>
-</blockquote>
-
-</div>
 </div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
 <div class="jp-Cell-inputWrapper">
 <div class="jp-InputArea jp-Cell-inputArea">
 <div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[42]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
      <div class="CodeMirror cm-s-jupyter">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">from</span> <span class="nn">subprocess</span> <span class="kn">import</span> <span class="n">call</span>
-<span class="n">call</span><span class="p">([</span><span class="s1">&#39;python&#39;</span><span class="p">,</span> <span class="s1">&#39;-m&#39;</span><span class="p">,</span> <span class="s1">&#39;nbconvert&#39;</span><span class="p">,</span> <span class="s1">&#39;Recommendations_with_IBM.ipynb&#39;</span><span class="p">])</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">user_item_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test_common_user</span><span class="p">,</span> <span class="n">test_common_items</span><span class="p">]</span>
 </pre></div>
 
      </div>
@@ -16647,15 +17115,649 @@ Our systems could be further improved by:</p>
 
 
 
+<div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
 
-<div class="jp-RenderedText jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/plain">
-<pre>1</pre>
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+      <th>2</th>
+      <th>4</th>
+      <th>8</th>
+      <th>9</th>
+      <th>12</th>
+      <th>14</th>
+      <th>15</th>
+      <th>16</th>
+      <th>18</th>
+      <th>...</th>
+      <th>1432</th>
+      <th>1433</th>
+      <th>1434</th>
+      <th>1435</th>
+      <th>1436</th>
+      <th>1437</th>
+      <th>1439</th>
+      <th>1440</th>
+      <th>1441</th>
+      <th>1443</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2917</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3024</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3093</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3193</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3527</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3532</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3684</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3740</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3777</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3801</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3968</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3989</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3990</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>3998</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4002</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4204</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4231</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4274</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4293</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>1</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <th>4487</th>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>...</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+      <td>0</td>
+    </tr>
+  </tbody>
+</table>
+<p>20 rows × 574 columns</p>
+</div>
 </div>
 
 </div>
 
 </div>
 
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[43]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">u_pred</span> <span class="o">=</span> <span class="n">u_train</span><span class="p">[</span><span class="n">train_common_user</span><span class="p">,</span> <span class="p">:]</span>
+<span class="n">vt_pred</span> <span class="o">=</span> <span class="n">vt_train</span><span class="p">[:,</span> <span class="n">train_common_items</span><span class="p">]</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell   ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[44]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">num_latent_feats</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">700</span><span class="o">+</span><span class="mi">10</span><span class="p">,</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">sum_errs</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">num_latent_feats</span><span class="p">:</span>
+    <span class="c1"># restructure with k latent features</span>
+    <span class="n">s_new</span><span class="p">,</span> <span class="n">u_new</span><span class="p">,</span> <span class="n">vt_new</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diag</span><span class="p">(</span><span class="n">s_train</span><span class="p">[:</span><span class="n">k</span><span class="p">]),</span> <span class="n">u_train</span><span class="p">[:,</span> <span class="p">:</span><span class="n">k</span><span class="p">],</span> <span class="n">vt_train</span><span class="p">[:</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="n">u_test_new</span><span class="p">,</span> <span class="n">vt_test_new</span> <span class="o">=</span> <span class="n">u_pred</span><span class="p">[:,</span> <span class="p">:</span><span class="n">k</span><span class="p">],</span> <span class="n">vt_pred</span><span class="p">[:</span><span class="n">k</span><span class="p">,</span> <span class="p">:]</span>
+    <span class="c1"># take dot product</span>
+    <span class="n">user_item_est</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">around</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">u_test_new</span><span class="p">,</span> <span class="n">s_new</span><span class="p">),</span> <span class="n">vt_test_new</span><span class="p">))</span>
+    
+    <span class="c1"># compute error for each prediction to actual value</span>
+    <span class="n">diffs</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">subtract</span><span class="p">(</span><span class="n">user_item_test</span><span class="o">.</span><span class="n">loc</span><span class="p">[</span><span class="n">test_common_user</span><span class="p">],</span> <span class="n">user_item_est</span><span class="p">)</span>
+    
+    <span class="c1"># total errors and keep track of them</span>
+    <span class="n">err</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">diffs</span><span class="p">)))</span>
+    <span class="n">sum_errs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">err</span><span class="p">)</span>
+    
+    
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">num_latent_feats</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">sum_errs</span><span class="p">)</span><span class="o">/</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Number of Latent Features&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Accuracy&#39;</span><span class="p">);</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Accuracy vs. Number of Latent Features&#39;</span><span class="p">);</span>
+</pre></div>
+
+     </div>
+</div>
+</div>
+</div>
+
+<div class="jp-Cell-outputWrapper">
+
+
+<div class="jp-OutputArea jp-Cell-outputArea">
+
+<div class="jp-OutputArea-child">
+
+    
+    <div class="jp-OutputPrompt jp-OutputArea-prompt"></div>
+
+
+
+
+<div class="jp-RenderedImage jp-OutputArea-output ">
+<img src="data:image/png;base64,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
+"
+>
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><code>6.</code> Use the cell below to comment on the results you found in the previous question. Given the circumstances of your results, discuss what you might do to determine if the recommendations you make with any of the above recommendation systems are an improvement to how users currently find articles?</p>
+
+</div>
+</div>
+<div class="jp-Cell-inputWrapper"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput " data-mime-type="text/markdown">
+<p><strong>Response:</strong><br>
+In the previous question, after splitting the data to training and test set, it was necessary to filter both matrices down to the users and items located in both the training and test set. This left us with only 20 users from the 5149 and 574 articles from the 714. For this small sample size, the accuracy is relatively high. However, it is not tested on the majority of users available. The accuracy is slightly decreasing by increasing the number of latent variables from 0.9945 to 0.9910.</p>
+<p>All systems created above are improvements to the current way of finding articles.<br>
+Our systems could be further improved by:</p>
+<ul>
+<li>taking the number of interactions into account (user-item matrix cells will be the number of interactions)</li>
+<li>implementing a rating system with two options: like-dislike (and not rated)</li>
+</ul>
+<p>The current recommendation engine could be deployed as part of an A/B test to see if there is an increase in interaction between users and articles. One randomly selected group of already registered users will see the recommendations given by the model we built, the other group of existing users will see the current recommendations. New users will always face the cold start problem; they'll get the current recommendations. We can measure the number of interactions with the same article (assuming if someone is interested, they'll likely come back to the article later at some point) and the number of interactions with new articles between the two groups.</p>
+<p>User-based collaborative filtering is prone to a weakness where some users may try to improve their article recommendations by creating fake users and fake interactions or ratings artificially. This can be mitigated by incorporating item-based collaborative filtering into the recommender system.</p>
+
+</div>
+</div><div class="jp-Cell jp-CodeCell jp-Notebook-cell jp-mod-noOutputs  ">
+<div class="jp-Cell-inputWrapper">
+<div class="jp-InputArea jp-Cell-inputArea">
+<div class="jp-InputPrompt jp-InputArea-prompt">In&nbsp;[&nbsp;]:</div>
+<div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
+     <div class="CodeMirror cm-s-jupyter">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+     </div>
+</div>
+</div>
 </div>
 
 </div>
